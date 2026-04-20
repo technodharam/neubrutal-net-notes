@@ -1,0 +1,79 @@
+[
+  {
+    "_id": "topic-1",
+    "title": "NDS Basics",
+    "category": "Curriculum Core",
+    "level": "Fundamentals",
+    "content": "### NDS Basics (Network Design & Standards)\n\n**Clear Definition:**\nThe fundamental architectural framework and standards used to design, deploy, and manage scalable enterprise networks. It focuses on the strategic planning of network infrastructure to meet business needs.\n\n**Key Components:**\n*   **Hierarchical Model:** Core, Distribution, and Access layers.\n*   **Design Principles:** Modularity, resiliency, and scalability.\n*   **Documentation:** Network diagrams, IP addressing schemes, and hardware standards.\n\n**Real-world Use Case:**\nArchitecting a new corporate data center from scratch, ensuring that the layout can handle future growth without requiring a complete redesign of the backbone.\n\n**Quick Fact:**\nA robust network design (NDS) starts with understanding the business requirements and traffic patterns, not by picking out hardware from a catalog."
+  },
+  {
+    "_id": "topic-2",
+    "title": "Basics of Networking",
+    "category": "Fundamentals",
+    "level": "Beginner",
+    "content": "### Basics of Networking\n\n**Clear Definition:**\nThe practice of connecting multiple computing devices (computers, servers, IoT devices) to share resources and exchange data using standardized communication protocols.\n\n**Key Components:**\n*   **Devices:** Routers, Switches, Hubs, and End-hosts.\n*   **Addressing:** MAC addresses (Physical) and IP addresses (Logical).\n*   **Media:** Copper (Ethernet), Fiber-optic, and Wireless (Radio waves).\n*   **Protocols:** The sets of rules governing communication (e.g., TCP/IP).\n\n**Real-world Use Case:**\nSetting up a Local Area Network (LAN) in a small office so that multiple employees can share a single high-speed internet connection and a central file storage server.\n\n**Quick Fact:**\nEvery digital communication, from a simple text to a 4K video stream, is eventually broken down into a series of bits (0s and 1s) for transmission."
+  },
+  {
+    "_id": "topic-3",
+    "title": "OSPF (Open Shortest Path First)",
+    "category": "Routing",
+    "level": "Intermediate",
+    "content": "### OSPF (Open Shortest Path First)\n\n**Clear Definition:**\nA link-state Interior Gateway Protocol (IGP) that uses Dijkstra's Shortest Path First (SPF) algorithm to calculate the most efficient path for data packets within a single autonomous system.\n\n**Key Components:**\n*   **Areas:** Logical groupings of routers (Area 0 is the mandatory Backbone area).\n*   **LSAs (Link-State Advertisements):** Small packets used to share local link information with neighbors.\n*   **Hello Packets:** Used to discover neighbors and maintain adjacencies.\n*   **SPF Tree:** A mathematical map of the network calculated independently by each router.\n\n**Real-world Use Case:**\nUsed in large university campuses or corporate offices where hundreds of routers need to automatically adapt to link failures and ensure traffic takes the lowest-cost path.\n\n**Quick Fact:**\nOSPF is an 'Open' standard, meaning it is vendor-neutral and can be used to connect Cisco, Juniper, and HP routers in the same network seamlessly."
+  },
+  {
+    "_id": "topic-4",
+    "title": "EIGRP (Enhanced Interior Gateway Routing Protocol)",
+    "category": "Routing",
+    "level": "Intermediate",
+    "content": "### EIGRP (Enhanced Interior Gateway Routing Protocol)\n\n**Clear Definition:**\nAn advanced distance-vector routing protocol (often called a 'Hybrid' protocol) that offers extremely fast convergence and low network overhead.\n\n**Key Components:**\n*   **DUAL (Diffusing Update Algorithm):** The engine that ensures loop-free paths and rapid failover.\n*   **Composite Metric:** A value calculated based on Bandwidth and Delay (and optionally Reliability and Load).\n*   **Successor/Feasible Successor:** The primary path and the pre-calculated backup path.\n\n**Real-world Use Case:**\nAn enterprise with predominantly Cisco hardware that requires near-instantaneous recovery (sub-second) if a network link goes down.\n\n**Quick Fact:**\nEIGRP is the only routing protocol capable of 'Unequal Cost Load Balancing,' allowing traffic to be distributed across two links even if one is slower than the other."
+  },
+  {
+    "_id": "topic-5",
+    "title": "BGP (Border Gateway Protocol)",
+    "category": "Routing",
+    "level": "Advanced",
+    "content": "### BGP (Border Gateway Protocol)\n\n**Clear Definition:**\nThe standardized 'Path-Vector' protocol used to exchange routing and reachability information between different Autonomous Systems (AS) on the global Internet.\n\n**Key Components:**\n*   **AS Numbers:** Unique identifiers for independent networks (e.g., Google, Amazon, your ISP).\n*   **Path Attributes:** Metadata like AS_Path, Local Preference, and MED used to influence routing decisions.\n*   **Peering:** Manual establishment of neighbor relationships over TCP port 179.\n\n**Real-world Use Case:**\nUsed by Internet Service Providers (ISPs) to determine which international path a packet should take to reach a website hosted in another country.\n\n**Quick Fact:**\nBGP is not about finding the 'fastest' path; it is about 'policy.' It allows network owners to decide where traffic goes based on business agreements and security rules."
+  },
+  {
+    "_id": "topic-6",
+    "title": "MPLS (Multi-Protocol Label Switching)",
+    "category": "Switching",
+    "level": "Advanced",
+    "content": "### MPLS (Multi-Protocol Label Switching)\n\n**Clear Definition:**\nA high-performance data-carrying mechanism that directs data from one node to the next based on short path 'labels' rather than long network addresses, speeding up the forwarding process.\n\n**Key Components:**\n*   **Labels:** 20-bit identifiers added (pushed) to packets as they enter the MPLS network.\n*   **LSR (Label Switch Router):** Routers that swap labels and forward traffic at high speed.\n*   **LER (Label Edge Router):** Routers at the boundary that add or remove labels.\n*   **LSP (Label Switched Path):** The pre-defined virtual path traffic follows through the network.\n\n**Real-world Use Case:**\nService Providers use MPLS to create Layer 3 VPNs for corporate clients, allowing them to connect multiple branches securely over a shared public backbone.\n\n**Quick Fact:**\nMPLS is called 'Multi-Protocol' because it can encapsulate almost any type of data, including IP packets, Ethernet frames, or even legacy ATM cells."
+  },
+  {
+    "_id": "topic-7",
+    "title": "Switching Advance (VLANs, STP, etc.)",
+    "category": "Switching",
+    "level": "Intermediate",
+    "content": "### Switching Advance (VLANs, STP, etc.)\n\n**Clear Definition:**\nA collection of advanced Layer 2 technologies used to create logical segments, prevent loops, and aggregate bandwidth in a local network environment.\n\n**Key Components:**\n*   **VLANs (Virtual LANs):** Logically segmenting a single physical switch into multiple isolated broadcast domains.\n*   **STP (Spanning Tree Protocol):** A protocol that prevents bridge loops and broadcast storms by logically blocking redundant paths.\n*   **EtherChannel:** Combining multiple physical links into one logical high-speed link for increased bandwidth and redundancy.\n\n**Real-world Use Case:**\nSeparating a company's 'Guest Wi-Fi' traffic from its internal 'Accounting' traffic on the same physical equipment to ensure security and performance.\n\n**Quick Fact:**\nWithout Spanning Tree Protocol (STP), a single accidental loop in your cabling could generate so much broadcast traffic that it would crash your entire network in seconds."
+  },
+  {
+    "_id": "topic-8",
+    "title": "HSRP & HSRP Updated",
+    "category": "Redundancy",
+    "level": "Intermediate",
+    "content": "### HSRP & HSRP Updated (Hot Standby Router Protocol)\n\n**Clear Definition:**\nA Cisco-proprietary redundancy protocol (FHRP) that allows multiple routers to present themselves as a single 'Virtual Gateway' to end-user devices, providing seamless failover.\n\n**Key Components:**\n*   **Virtual IP (VIP):** The IP address configured as the default gateway on all client computers.\n*   **Active Router:** The router currently handling all traffic sent to the VIP.\n*   **Standby Router:** The router waiting to take over if the Active router fails.\n*   **Hello Timers:** Periodic messages used to monitor the 'health' of the group.\n\n**Real-world Use Case:**\nConfiguring two routers at the edge of a corporate office so that if the main router's hardware fails, the backup router takes over instantly without users noticing a drop in their connection.\n\n**Quick Fact:**\nHSRP Updated (Version 2) supports IPv6 and increases the number of available group IDs from 256 to 4096, making it suitable for much larger data center environments."
+  },
+  {
+    "_id": "topic-9",
+    "title": "Headers (L2, L3, and L4)",
+    "category": "Fundamentals",
+    "level": "Beginner",
+    "content": "### Headers (L2, L3, and L4)\n\n**Clear Definition:**\nThe control information (metadata) added to raw data at each layer of the OSI model during the encapsulation process to ensure it is routed, delivered, and handled correctly.\n\n**Key Components:**\n*   **Layer 2 Header (Data Link):** Contains Source and Destination MAC addresses (used for local delivery).\n*   **Layer 3 Header (Network):** Contains Source and Destination IP addresses (used for global routing).\n*   **Layer 4 Header (Transport):** Contains Source and Destination Port numbers (used for application identification).\n\n**Real-world Use Case:**\nA network engineer uses a packet sniffer (like Wireshark) to examine the headers of a failing connection to see if the packet is being dropped at the IP layer or rejected at the Port layer.\n\n**Quick Fact:**\nEncapsulation is like putting a letter in an envelope (L4), putting that envelope in a box (L3), and putting that box on a specific delivery truck (L2)."
+  },
+  {
+    "_id": "topic-10",
+    "title": "RIP (Routing Information Protocol)",
+    "category": "Routing",
+    "level": "Beginner",
+    "content": "### RIP (Routing Information Protocol)\n\n**Clear Definition:**\nA legacy distance-vector routing protocol that uses a simple 'hop count' metric to determine the best path between networks.\n\n**Key Components:**\n*   **Hop Count:** The number of routers a packet must pass through (limited to a maximum of 15).\n*   **Periodic Updates:** Routers broadcast their entire routing table to neighbors every 30 seconds.\n*   **Split Horizon:** A loop-prevention mechanism that stops a router from advertising a route back out the same interface it learned it from.\n\n**Real-world Use Case:**\nRarely used in modern enterprises, but still found in very small, simple networks or as a legacy protocol in older lab environments where low complexity is required.\n\n**Quick Fact:**\nIn RIP, any network that is 16 hops away is considered 'Infinite' or unreachable. This 'count to infinity' limitation is why RIP is not used in large-scale networks."
+  },
+  {
+    "_id": "topic-11",
+    "title": "GRE-Tunnel (Generic Routing Encapsulation)",
+    "category": "VPN",
+    "level": "Intermediate",
+    "content": "### GRE-Tunnel (Generic Routing Encapsulation)\n\n**Clear Definition:**\nA tunneling protocol that encapsulates a wide variety of network layer protocols (like OSPF or EIGRP) inside virtual point-to-point links over an IP network.\n\n**Key Components:**\n*   **Tunnel Source/Destination:** The physical IP addresses of the two endpoints forming the tunnel.\n*   **Passenger Protocol:** The data being carried (e.g., an OSPF update or an IPv6 packet).\n*   **Carrier Protocol:** The protocol used to transport the tunnel (usually standard IPv4).\n\n**Real-world Use Case:**\nConnecting two remote office branches over the public Internet so they can exchange private routing updates and appear as if they are on the same local network.\n\n**Quick Fact:**\nGRE is 'stateless' and provides zero encryption on its own. To make a GRE tunnel secure, engineers almost always wrap it inside an IPsec tunnel to protect the data."
+  }
+]

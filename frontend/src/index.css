@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --neo-yellow: #FFF000;
+  --neo-blue: #3A86FF;
+  --neo-green: #00F5D4;
+  --neo-pink: #FF006E;
+  --neo-purple: #8338EC;
+  --neo-black: #1A1A1A;
+  --neo-white: #F8F9FA;
+  --card-bg: #FFFFFF;
+}
+
+html, body {
+  background-color: var(--neo-white);
+  color: var(--neo-black);
+}
+
+@layer base {
+  body {
+    @apply bg-neo-white text-neo-black antialiased;
+  }
+}
+
+@layer components {
+  .brutal-card {
+    background-color: var(--card-bg);
+    @apply border-4 border-neo-black shadow-brutal rounded-none transition-all hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-lg;
+  }
+  
+  .brutal-btn {
+    @apply px-6 py-3 border-4 border-neo-black shadow-brutal font-bold tracking-wide transition-all hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-lg active:translate-y-0 active:translate-x-0 active:shadow-none;
+  }
+  
+  .brutal-input {
+    background-color: var(--card-bg);
+    @apply px-4 py-3 border-4 border-neo-black focus:outline-none focus:ring-0 focus:shadow-brutal transition-shadow;
+  }
+}
+
+/* Custom Scrollbar for terminal and chatbot */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--neo-white); 
+  border-left: 2px solid var(--neo-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--neo-black); 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neo-blue); 
+}

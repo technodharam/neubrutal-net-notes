@@ -1,0 +1,10 @@
+[
+  {
+    "_id": "blog-1",
+    "title": "Why you should understand Subnetting",
+    "content": "Subnetting is the practice of dividing a network into two or more smaller networks. It increases routing efficiency, enhances the security of the network and reduces the size of the broadcast domain.\n\n### How to start?\nLearn the powers of 2. Understand binary math. Practice with CIDR notation.",
+    "author": "Admin",
+    "createdAt": "2026-04-19T10:00:00.000Z",
+    "tags": ["IPv4", "Tips", "Subnetting"]
+  }
+]
