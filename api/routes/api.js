@@ -94,9 +94,10 @@ const checkDbConnection = (req, res, next) => {
 router.post('/admin/login', (req, res) => {
   const { password } = req.body;
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin' + '123';
-  console.log(`[Auth] Login attempt. Match: ${password === adminPassword}`);
+  const match = password && password.trim() === adminPassword.trim();
+  console.log(`[Auth] Login attempt. Match: ${match}`);
   
-  if (password === adminPassword) {
+  if (match) {
     const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '1d' });
     return res.json({ token });
   }
@@ -125,9 +126,16 @@ router.get('/notes', checkDbConnection, async (req, res) => {
 // Get single note
 router.get('/notes/:id', checkDbConnection, async (req, res) => {
   try {
-    const note = await Note.findById(req.params.id);
-    if (!note) return res.status(404).json({ message: 'Note not found' });
-    res.json(note);
+    if (mongoose.connection.readyState === 1) {
+      const note = await Note.findById(req.params.id);
+      if (!note) return res.status(404).json({ message: 'Note not found' });
+      res.json(note);
+    } else {
+      const notes = await getLocalData('notes.json');
+      const note = notes.find(n => n._id === req.params.id);
+      if (!note) return res.status(404).json({ message: 'Note not found in GitHub storage' });
+      res.json(note);
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -220,9 +228,16 @@ router.get('/blogs', checkDbConnection, async (req, res) => {
 // Get single blog
 router.get('/blogs/:id', checkDbConnection, async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
-    if (!blog) return res.status(404).json({ message: 'Blog not found' });
-    res.json(blog);
+    if (mongoose.connection.readyState === 1) {
+      const blog = await Blog.findById(req.params.id);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      res.json(blog);
+    } else {
+      const blogs = await getLocalData('blogs.json');
+      const blog = blogs.find(b => b._id === req.params.id);
+      if (!blog) return res.status(404).json({ message: 'Blog not found in GitHub storage' });
+      res.json(blog);
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
