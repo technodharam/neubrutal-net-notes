@@ -1,10 +1,12 @@
 [
   {
-    "_id": "topic-2",
     "title": "Basics of Networking",
     "category": "Fundamentals",
     "level": "Beginner",
-    "content": "### Basics of Networking\n\n**Clear Definition:**\nThe practice of connecting multiple computing devices (computers, servers, IoT devices) to share resources and exchange data using standardized communication protocols.\n\n**Key Components:**\n*   **Devices:** Routers, Switches, Hubs, and End-hosts.\n*   **Addressing:** MAC addresses (Physical) and IP addresses (Logical).\n*   **Media:** Copper (Ethernet), Fiber-optic, and Wireless (Radio waves).\n*   **Protocols:** The sets of rules governing communication (e.g., TCP/IP).\n\n**Real-world Use Case:**\nSetting up a Local Area Network (LAN) in a small office so that multiple employees can share a single high-speed internet connection and a central file storage server.\n\n**Quick Fact:**\nEvery digital communication, from a simple text to a 4K video stream, is eventually broken down into a series of bits (0s and 1s) for transmission."
+    "tags": "",
+    "content": "### Basics of Networking\n\n**Clear Definition:**\nThe practice of connecting multiple computing devices (computers, servers, IoT devices) to share resources and exchange data using standardized communication protocols.\n\n**Key Components:**\n*   **Devices:** Routers, Switches, Hubs, and End-hosts.\n*   **Addressing:** MAC addresses (Physical) and IP addresses (Logical).\n*   **Media:** Copper (Ethernet), Fiber-optic, and Wireless (Radio waves).\n*   **Protocols:** The sets of rules governing communication (e.g., TCP/IP).\n\n**Real-world Use Case:**\nSetting up a Local Area Network (LAN) in a small office so that multiple employees can share a single high-speed internet connection and a central file storage server.\n\n**Quick Fact:**\nEvery digital communication, from a simple text to a 4K video stream, is eventually broken down into a series of bits (0s and 1s) for transmission.",
+    "resources": "",
+    "_id": "topic-2"
   },
   {
     "_id": "topic-3",
