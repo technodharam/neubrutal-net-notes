@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Terminal, BookOpen, FileText, Settings, Menu, X, User } from 'lucide-react';
+import { Terminal, BookOpen, FileText, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import AboutMe from './AboutMe';
 
@@ -49,10 +49,6 @@ const Navbar = () => {
               <User className="w-5 h-5 mr-1" />
               About
             </button>
-
-            <Link to="/admin" className="ml-4 bg-neo-yellow brutal-btn py-2 px-4 flex items-center">
-              <Settings className="w-5 h-5 mr-2" /> Admin
-            </Link>
           </div>
 
 
@@ -80,13 +76,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Link
-              to="/admin"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center px-3 py-4 text-xl font-bold bg-neo-yellow border-b-2 border-neo-black"
-            >
-              <Settings className="w-5 h-5 mr-2" /> Admin
-            </Link>
             <button
               onClick={() => {
                 setIsOpen(false);

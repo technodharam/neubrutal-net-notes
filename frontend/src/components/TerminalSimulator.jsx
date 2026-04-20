@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { TerminalSquare, Send } from 'lucide-react';
+import { TerminalSquare } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const TerminalSimulator = () => {
+  const navigate = useNavigate();
   const [history, setHistory] = useState([
     { type: 'output', content: 'NetOS [Version 10.0.19045.2846]' },
     { type: 'output', content: '(c) NetNotes Corporation. All rights reserved.' },
@@ -9,22 +11,65 @@ const TerminalSimulator = () => {
     { type: 'output', content: 'Type "help" for a list of simulated commands.' }
   ]);
   const [input, setInput] = useState('');
+  // States: null = normal, 'awaiting_password' = admin typed, waiting for password
+  const [mode, setMode] = useState(null);
   const endRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
+  // Always focus input
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [mode]);
+
+  const addOutput = (content, type = 'output') => {
+    setHistory(prev => [...prev, { type, content }]);
+  };
+
   const handleCommand = (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
-
     const cmd = input.trim();
-    const newHistory = [...history, { type: 'input', content: `C:\\Users\\Student> ${cmd}` }];
-    
-    // Simulate processing
+    if (!cmd) return;
+
+    if (mode === 'awaiting_password') {
+      // Don't echo the password — show asterisks
+      setHistory(prev => [...prev, { type: 'input', content: `C:\\Users\\Student> ********` }]);
+      setInput('');
+
+      setTimeout(() => {
+        if (cmd === 'admin123') {
+          addOutput('✔ Access granted. Redirecting to Admin Panel...');
+          setTimeout(() => {
+            navigate('/admin');
+          }, 1000);
+        } else {
+          addOutput('✘ Access denied. Incorrect password.');
+          addOutput(' ');
+        }
+        setMode(null);
+      }, 400);
+      return;
+    }
+
+    // Normal mode — echo the command
+    setHistory(prev => [...prev, { type: 'input', content: `C:\\Users\\Student> ${cmd}` }]);
+    setInput('');
+
     const args = cmd.toLowerCase().split(' ');
     const command = args[0];
+
+    // Secret admin command
+    if (command === 'admin') {
+      setTimeout(() => {
+        addOutput('Authorization required.');
+        addOutput('Enter admin password:');
+        setMode('awaiting_password');
+      }, 300);
+      return;
+    }
 
     setTimeout(() => {
       let output = '';
@@ -35,7 +80,6 @@ const TerminalSimulator = () => {
         case 'cls':
         case 'clear':
           setHistory([]);
-          setInput('');
           return;
         case 'ping':
           if (args.length > 1) {
@@ -60,11 +104,8 @@ const TerminalSimulator = () => {
         default:
           output = `'${command}' is not recognized as an internal or external command, operable program or batch file.`;
       }
-      setHistory(prev => [...prev, { type: 'output', content: output }]);
+      addOutput(output);
     }, 400);
-
-    setHistory(newHistory);
-    setInput('');
   };
 
   return (
@@ -81,7 +122,7 @@ const TerminalSimulator = () => {
         </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto whitespace-pre-wrap pb-4">
+      <div className="flex-1 overflow-y-auto whitespace-pre-wrap pb-4" onClick={() => inputRef.current?.focus()}>
         {history.map((line, i) => (
           <div key={i} className={`mb-1 ${line.type === 'input' ? 'text-white' : 'text-neo-green'}`}>
             {line.content}
@@ -93,7 +134,8 @@ const TerminalSimulator = () => {
       <form onSubmit={handleCommand} className="flex mt-2">
         <span className="text-white mr-2">C:\Users\Student&gt;</span>
         <input
-          type="text"
+          ref={inputRef}
+          type={mode === 'awaiting_password' ? 'password' : 'text'}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="flex-1 bg-transparent border-none outline-none text-white focus:ring-0"
