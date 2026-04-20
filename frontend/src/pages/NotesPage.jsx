@@ -35,7 +35,7 @@ const NotesPage = () => {
     const fetchNotes = async () => {
       try {
         // Will fail gracefully if backend not running
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
         const res = await axios.get(`${API_BASE_URL}/api/notes`);
         setNotes(res.data);
       } catch (error) {

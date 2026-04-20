@@ -46,7 +46,7 @@ const AdminDashboard = () => {
     const isNote = activeTab === 'list_notes';
     const endpoint = isNote ? '/api/notes' : '/api/blogs';
     
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
     try {
       setSuccess('Deleting...');
       await axios.delete(`${API_BASE_URL}${endpoint}/${itemId}`, {
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
 
     const fetchItems = async () => {
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
         const res = await axios.get(`${API_BASE_URL}${endpoint}`);
         setItems(res.data);
       } catch (err) {
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
     try {
       const res = await axios.post(`${API_BASE_URL}/api/admin/login`, { password });
       setToken(res.data.token);
@@ -122,14 +122,14 @@ const AdminDashboard = () => {
     try {
       let res;
       if (editingId) {
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
         // Update existing
         res = await axios.put(`${API_BASE_URL}${endpoint}/${editingId}`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setItems(items.map(item => item._id === editingId ? res.data : item));
       } else {
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
         // Create new
         res = await axios.post(`${API_BASE_URL}${endpoint}`, formData, {
           headers: { Authorization: `Bearer ${token}` }

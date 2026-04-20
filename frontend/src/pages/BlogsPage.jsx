@@ -10,7 +10,7 @@ const BlogsPage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
         const res = await axios.get(`${API_BASE_URL}/api/blogs`);
         setBlogs(res.data);
       } catch (error) {
