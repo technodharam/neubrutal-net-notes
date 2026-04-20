@@ -15,6 +15,18 @@ const GITHUB_TOKEN = 'ghp_' + 'GWplTjr11WXShN5unmEPNtwfrSQGAN3PDvcC';
 const ADMIN_PASSWORD = 'admin' + '123';
 const JWT_SECRET = 'super' + 'secret';
 
+// Auth Middleware
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'No token provided' });
+  try {
+    jwt.verify(token, JWT_SECRET);
+    next();
+  } catch (err) {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
 const getLocalData = async (filename) => {
   try {
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/api/data/${filename}?ref=${GITHUB_BRANCH}`;
@@ -28,14 +40,51 @@ const getLocalData = async (filename) => {
     if (response.ok) {
       return await response.json();
     }
-    const errText = await response.text();
-    console.error(`[GitHub API Error] ${filename}: ${response.status} - ${errText}`);
     return [];
   } catch (err) {
     console.error(`[Fetch Error] ${filename}:`, err);
     return [];
   }
 };
+
+const saveLocalData = async (filename, data) => {
+  try {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/api/data/${filename}?ref=${GITHUB_BRANCH}`;
+    
+    // 1. Get current SHA
+    const getResponse = await fetch(url, {
+      headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+    });
+    
+    let sha = null;
+    if (getResponse.ok) {
+      const fileData = await getResponse.json();
+      sha = fileData.sha;
+    }
+
+    // 2. Update file
+    const putResponse = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/api/data/${filename}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Update ${filename} via Admin Portal`,
+        content: Buffer.from(JSON.stringify(data, null, 2)).toString('base64'),
+        sha: sha,
+        branch: GITHUB_BRANCH
+      })
+    });
+
+    return putResponse.ok;
+  } catch (err) {
+    console.error(`[Save Error] ${filename}:`, err);
+    return false;
+  }
+};
+
+// --- ROUTES ---
 
 app.get('/api/notes', async (req, res) => {
   const notes = await getLocalData('notes.json');
@@ -56,19 +105,68 @@ app.post('/api/admin/login', (req, res) => {
   res.status(401).json({ message: 'Invalid credentials' });
 });
 
-// Single item routes
-app.get('/api/notes/:id', async (req, res) => {
+// Create/Update/Delete Notes
+app.post('/api/notes', authMiddleware, async (req, res) => {
   const notes = await getLocalData('notes.json');
-  const note = notes.find(n => n._id === req.params.id);
-  if (!note) return res.status(404).json({ message: 'Not found' });
-  res.json(note);
+  const newNote = { ...req.body, _id: Date.now().toString(), createdAt: new Date().toISOString() };
+  notes.push(newNote);
+  if (await saveLocalData('notes.json', notes)) {
+    res.status(201).json(newNote);
+  } else {
+    res.status(500).json({ message: 'Failed to save to GitHub' });
+  }
 });
 
-app.get('/api/blogs/:id', async (req, res) => {
+app.put('/api/notes/:id', authMiddleware, async (req, res) => {
+  let notes = await getLocalData('notes.json');
+  notes = notes.map(n => n._id === req.params.id ? { ...req.body, _id: req.params.id } : n);
+  if (await saveLocalData('notes.json', notes)) {
+    res.json({ _id: req.params.id, ...req.body });
+  } else {
+    res.status(500).json({ message: 'Failed to update GitHub' });
+  }
+});
+
+app.delete('/api/notes/:id', authMiddleware, async (req, res) => {
+  let notes = await getLocalData('notes.json');
+  const filtered = notes.filter(n => n._id !== req.params.id);
+  if (await saveLocalData('notes.json', filtered)) {
+    res.json({ message: 'Deleted' });
+  } else {
+    res.status(500).json({ message: 'Failed to delete from GitHub' });
+  }
+});
+
+// Create/Update/Delete Blogs
+app.post('/api/blogs', authMiddleware, async (req, res) => {
   const blogs = await getLocalData('blogs.json');
-  const blog = blogs.find(b => b._id === req.params.id);
-  if (!blog) return res.status(404).json({ message: 'Not found' });
-  res.json(blog);
+  const newBlog = { ...req.body, _id: Date.now().toString(), createdAt: new Date().toISOString() };
+  blogs.push(newBlog);
+  if (await saveLocalData('blogs.json', blogs)) {
+    res.status(201).json(newBlog);
+  } else {
+    res.status(500).json({ message: 'Failed to save to GitHub' });
+  }
+});
+
+app.put('/api/blogs/:id', authMiddleware, async (req, res) => {
+  let blogs = await getLocalData('blogs.json');
+  blogs = blogs.map(b => b._id === req.params.id ? { ...req.body, _id: req.params.id } : b);
+  if (await saveLocalData('blogs.json', blogs)) {
+    res.json({ _id: req.params.id, ...req.body });
+  } else {
+    res.status(500).json({ message: 'Failed to update GitHub' });
+  }
+});
+
+app.delete('/api/blogs/:id', authMiddleware, async (req, res) => {
+  let blogs = await getLocalData('blogs.json');
+  const filtered = blogs.filter(b => b._id !== req.params.id);
+  if (await saveLocalData('blogs.json', filtered)) {
+    res.json({ message: 'Deleted' });
+  } else {
+    res.status(500).json({ message: 'Failed to delete from GitHub' });
+  }
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
